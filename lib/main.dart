@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './button.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,66 +16,69 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
-  // String _title = 'value will be set';
-  // String? _name;
 
-  List<String> _questions = [
-    'What\'s your favorite color?',
-    'What\'s your favorite animal?',
+  static const _questions = [
+    {
+      'questionsText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'black', 'score': 10},
+        {'text': 'white', 'score': 0},
+        {'text': 'red', 'score': 0},
+        {'text': 'green', 'score': 0},
+      ],
+    },
+    {
+      'questionsText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'dog', 'score': 10},
+        {'text': 'cat', 'score': 0},
+        {'text': 'rabbit', 'score': 0},
+        {'text': 'lion', 'score': 0},
+      ],
+    },
+    {
+      'questionsText': 'What\'s your favorite food?',
+      'answers': [
+        {'text': 'pizza', 'score': 10},
+        {'text': 'burger', 'score': 0},
+        {'text': 'chicken', 'score': 0},
+        {'text': 'pasta', 'score': 0},
+      ],
+    }
   ];
 
-  void _answerQuestion() {
+  int totalScore = 0;
+
+  void _answerQuestion(int score) {
+    // ignore: unused_local_variable
+    totalScore += score;
+
     setState(() {
-      if (_questionIndex < _questions.length - 1) {
+      if (_questionIndex < _questions.length) {
         _questionIndex++;
       } else {
-        _questionIndex = 0;
+        print('No more questions');
       }
     });
-    print(_questions[_questionIndex]);
   }
-
-  // void _getName() {
-  //   setState(() {
-  //     _title = _name!;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(_questions[_questionIndex]),
-            AnswerButton(_answerQuestion, 'Answer 1'),
-            AnswerButton(_answerQuestion, 'Answer 1'),
-            AnswerButton(_answerQuestion, 'Answer 1'),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //   child: TextField(
-            //     // onChanged: (value) => _name = value,
-            //     decoration: InputDecoration(
-            //       border: OutlineInputBorder(),
-            //       labelText: 'Enter your name',
-            //     ),
-            //   ),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     _getName();
-            //   },
-            //   child: Text('Submit'),
-            // ),
-            // Text(
-            //   _title,
-            //   style: TextStyle(fontSize: 20),
-            // ),
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                questions: _questions,
+                questionIndex: _questionIndex,
+                answerQuestion: _answerQuestion,
+              )
+            : Result(
+                resultScore: totalScore,
+              ),
       ),
     );
   }
