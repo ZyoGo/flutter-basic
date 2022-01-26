@@ -16,6 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
+  int _totalScore = 0;
 
   static const _questions = [
     {
@@ -47,11 +48,15 @@ class _MyAppState extends State<MyApp> {
     }
   ];
 
-  int totalScore = 0;
+  void _resetHandler() {
+    setState(() {
+      _totalScore = 0;
+      _questionIndex = 0;
+    });
+  }
 
   void _answerQuestion(int score) {
-    // ignore: unused_local_variable
-    totalScore += score;
+    _totalScore += score;
 
     setState(() {
       if (_questionIndex < _questions.length) {
@@ -77,7 +82,8 @@ class _MyAppState extends State<MyApp> {
                 answerQuestion: _answerQuestion,
               )
             : Result(
-                resultScore: totalScore,
+                resultScore: _totalScore,
+                resetHandler: _resetHandler,
               ),
       ),
     );
