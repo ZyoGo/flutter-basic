@@ -9,11 +9,11 @@ class Result extends StatelessWidget {
     late String grade;
 
     if (resultScore! <= 10) {
-      grade = 'Your grade is C';
+      grade = 'Your grade is C with a score of $resultScore';
     } else if (resultScore! <= 20) {
-      grade = 'Your grade is B';
+      grade = 'Your grade is B with a score of $resultScore';
     } else {
-      grade = 'Your grade is A';
+      grade = 'Your grade is A with a score of $resultScore';
     }
 
     return grade;

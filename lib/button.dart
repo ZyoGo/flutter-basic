@@ -9,7 +9,7 @@ class AnswerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      // width: double.infinity,
       child: ElevatedButton(
         child: Text(
           text,
